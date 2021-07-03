@@ -27,12 +27,22 @@ public class Percolation {
         p.open(2, 1);
         p.open(2, 2);
         p.open(1, 2);
-        p.isFull(2, 1);
-        System.out.println("a");
+
+        boolean siteIsFull = p.isFull(2, 1);
+        System.out.println("Is Full: " + siteIsFull + " - Expected true");
+
+        System.out.println("System percolates: " + p.percolates() + " - Expected false");
+
+        p.open(3, 1);
+        System.out.println("System percolates: " + p.percolates() + " - Expected true");
+
     }
 
     int[][] grid;
     WeightedQuickUnionUF unionFindElements;
+    int virtualTopSiteIndex;
+    int virtualBottomSiteIndex;
+    int totalOpenSites;
 
     // Creates n-by-n grid with all sites initially blocked
     public Percolation(int n) {
@@ -41,17 +51,23 @@ public class Percolation {
         }
 
         // This grid will keep track of open/closed sites
-        // grid[i][j] = 0 will represent a blocked site | 1 = open site
+        // grid[i][j] = 0 = blocked site | 1 = open site
         this.grid = new int[n][n];
 
         // Store the total number of nodes + 2 (Virtual top/bottom site) in the union find data structure
-        this.unionFindElements = new WeightedQuickUnionUF(n * n);
+        // Top virtual site index will be n * n
+        // Bottom virtual site index will n * n + 1
+        this.unionFindElements = new WeightedQuickUnionUF((n * n) + 2);
+        this.virtualTopSiteIndex = n * n;
+        this.virtualBottomSiteIndex = (n * n) + 1;
+        this.totalOpenSites = 0;
     }
 
     // Opens the site (row,col) if it is not opened already
     // Connect site to all its adjacent open sites
-    // 0-4 calls to union()
     public void open(int row, int col) {
+        this.validateRowAndCol(row, col);
+
         int ABOVE_ROW = row - 1;
         int BELOW_ROW = row + 1;
         int COLUMN_TO_THE_LEFT = col - 1;
@@ -59,6 +75,7 @@ public class Percolation {
 
         // Open the site
         this.grid[row - 1][col - 1] = 1;
+        this.totalOpenSites++;
 
         // Map the adjacent grid indices to a 1D Array index to map against our UnionFind DS
         int currentSiteArrayIndex = getOneDimensionalArrayIndex(row, col);
@@ -95,9 +112,19 @@ public class Percolation {
                 this.unionFindElements.union(currentSiteArrayIndex, rightSiteArrayIndex);
             }
         }
+
+        // if the site is on the first row, it's a child of our a top virtual site (Full site)
+        if (row == 1) {
+            this.unionFindElements.union(currentSiteArrayIndex, virtualTopSiteIndex);
+        }
+
+        // if the site is on the last row, it's a child of our bottom virtual site
+        if (row == this.grid.length) {
+            this.unionFindElements.union(currentSiteArrayIndex, virtualBottomSiteIndex);
+        }
     }
 
-    // is the site (row, col) open?
+    // If the site isn't 0, it's open
     public boolean isOpen(int row, int col) {
         this.validateRowAndCol(row, col);
         return this.grid[row - 1][col - 1] != 0;
@@ -105,18 +132,15 @@ public class Percolation {
 
     // A full site is an open site that can be connected to an open site in the top row via a chain of neighboring
     public boolean isFull(int row, int col) {
-        // If the site is open on the top row its a full site.
-        if (row - 1 == 0 && this.grid[row - 1][col - 1] == 1) {
-            return true;
-        }
+        this.validateRowAndCol(row, col);
 
-        // Otherwise we want to check if the root of the 1D Arr index is on the top row
         int pIndex = getOneDimensionalArrayIndex(row, col);
         int rootIndex = this.unionFindElements.find(pIndex);
 
-        // Convert 1D rootIndex to 2D grid index to see if its open and on the top row
-        int rowIndex = rootIndex / 3;
-        int colIndex = rootIndex % 3;
+        // If the root index is the virtual top site index, it's full
+        if (rootIndex == this.unionFindElements.find(virtualTopSiteIndex)) {
+            return true;
+        }
 
 
         return false;
@@ -124,12 +148,14 @@ public class Percolation {
 
     // returns number of open sites
     public int numberOfOpenSites() {
-        return 1;
+        return this.totalOpenSites;
     }
 
-    // We say the system percolates if there is a full site in the bottom row (connection to the top row)
+    // We say the system percolates if there is a full site in the bottom row connected to a site in the top row
+    // If the bottom virtual site and top virtual site are connected, then the system percolates
     public boolean percolates() {
-        return true;
+        return this.unionFindElements.find(virtualTopSiteIndex) == this.unionFindElements
+                .find(virtualBottomSiteIndex);
     }
 
 
