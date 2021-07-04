@@ -6,8 +6,7 @@
 
 import java.lang.IllegalArgumentException;
 
-import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdStats;
+
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 // Constraints:
@@ -22,20 +21,11 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
     // Test client
     public static void main(String[] args) {
-        Percolation p = new Percolation(3);
+        Percolation p = new Percolation(2);
         p.open(1, 1);
+        p.open(1, 2);
         p.open(2, 1);
         p.open(2, 2);
-        p.open(1, 2);
-
-        boolean siteIsFull = p.isFull(2, 1);
-        System.out.println("Is Full: " + siteIsFull + " - Expected true");
-
-        System.out.println("System percolates: " + p.percolates() + " - Expected false");
-
-        p.open(3, 1);
-        System.out.println("System percolates: " + p.percolates() + " - Expected true");
-
     }
 
     int[][] grid;
@@ -84,6 +74,16 @@ public class Percolation {
         int leftSiteArrayIndex = getOneDimensionalArrayIndex(row, COLUMN_TO_THE_LEFT);
         int rightSiteArrayIndex = getOneDimensionalArrayIndex(row, COLUMN_TO_THE_RIGHT);
 
+        // if the site is on the first row, it's a child of our a top virtual site (Full site)
+        if (row == 1) {
+            this.unionFindElements.union(virtualTopSiteIndex, currentSiteArrayIndex);
+        }
+
+        // if the site is on the last row, it's a child of our bottom virtual site
+        else if (row == this.grid.length) {
+            this.unionFindElements.union(virtualBottomSiteIndex, currentSiteArrayIndex);
+        }
+
         // Is the site above open
         if (isInsideGridBounds(ABOVE_ROW)) {
             if (isOpen(ABOVE_ROW, col)) {
@@ -113,15 +113,6 @@ public class Percolation {
             }
         }
 
-        // if the site is on the first row, it's a child of our a top virtual site (Full site)
-        if (row == 1) {
-            this.unionFindElements.union(currentSiteArrayIndex, virtualTopSiteIndex);
-        }
-
-        // if the site is on the last row, it's a child of our bottom virtual site
-        if (row == this.grid.length) {
-            this.unionFindElements.union(currentSiteArrayIndex, virtualBottomSiteIndex);
-        }
     }
 
     // If the site isn't 0, it's open
@@ -178,3 +169,5 @@ public class Percolation {
     }
 
 }
+
+
