@@ -1,11 +1,13 @@
-import edu.princeton.cs.algs4.In;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
     private Node head, tail = null;
     private int size = 0;
+
+    // construct an empty deque
+    public Deque() {
+    }
 
     private class Node {
         Item item;
@@ -25,6 +27,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         public Item next() {
+            if (current == null) {
+                throw new NoSuchElementException();
+            }
             Item item = current.item;
             current = current.next;
             return item;
@@ -37,9 +42,6 @@ public class Deque<Item> implements Iterable<Item> {
 
     }
 
-    // construct an empty deque
-    public Deque() {
-    }
 
     // is the deque empty?
     public boolean isEmpty() {
