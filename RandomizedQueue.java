@@ -79,8 +79,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (head == null) {
             throw new NoSuchElementException();
         }
+        double randomNum = 0;
 
-        double randomNum = StdRandom.uniform(size);
+        // double randomNum = StdRandom.uniform(size);
         int nodeCount = 0;
 
         Node current = head;
@@ -88,6 +89,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         if (randomNum == 0) {
             head = current.next;
+            if (head != null) {
+                head.prev = null;
+            }
+
         }
 
         else {

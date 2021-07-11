@@ -100,7 +100,7 @@ public class Deque<Item> implements Iterable<Item> {
         else {
             head = new Node();
             head.item = item;
-            head = tail;
+            tail = head;
         }
 
         size++;
@@ -114,8 +114,12 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         Item item = head.item;
-        head = head.next;
 
+        if (head.next == null) {
+            tail = null;
+        }
+
+        head = head.next;
         size--;
 
         return item;
@@ -149,6 +153,7 @@ public class Deque<Item> implements Iterable<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         Deque<Integer> deque = new Deque<>();
+
         deque.addFirst(1);
         deque.addFirst(2);
         deque.addFirst(3);
