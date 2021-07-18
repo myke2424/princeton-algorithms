@@ -84,6 +84,32 @@ public class Sorting {
         return arr;
     }
 
+
+    // Merge algorithm to merge two sorted arrays into one
+    static int[] merge(int[] a) {
+        int lo = 0;
+        int mid = (a.length - 1) / 2;
+        int hi = a.length - 1;
+        int[] aux = new int[a.length];
+
+        for (int i = 0; i < a.length; i++) {
+            aux[i] = a[i];
+        }
+
+        int i = lo;
+        int j = mid + 1;
+
+        for (int k = lo; k <= hi; k++) {
+            if (i > mid) aux[k] = a[j++]; // If ith array is exhausted (past mid point)
+            else if (j > hi) aux[k] = a[i++];  // If jth array is exhausted (past last point)
+            else if (a[i] > a[j]) aux[k] = a[j++]; // Set aux[k] to the smaller element
+            else aux[k] = a[j++]; // If they're equal, set aux[k] to value from left sub arr
+        }
+
+        return aux;
+
+    }
+
     public static void main(String[] args) {
         int[] arr = { 8, 3, 2, 5, 1, 10, };
 
@@ -100,5 +126,10 @@ public class Sorting {
 
         shellSort(arr3);
         System.out.println(Arrays.toString(arr3));
+
+        int[] arr4 = { 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5 };
+        // Merge two sorted arrays
+        System.out.println(Arrays.toString(merge(arr4)));
+
     }
 }
