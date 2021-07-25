@@ -86,28 +86,98 @@ public class Sorting {
 
 
     // Merge algorithm to merge two sorted arrays into one
-    static int[] merge(int[] a) {
-        int lo = 0;
-        int mid = (a.length - 1) / 2;
-        int hi = a.length - 1;
-        int[] aux = new int[a.length];
-
-        for (int i = 0; i < a.length; i++) {
-            aux[i] = a[i];
+    // a = arr, aux = arr of length a, lo = first idx, mid = mid idx, hi = last idx
+    static void merge(int[] a, int[] aux, int lo, int mid, int hi) {
+        for (int k = lo; k <= hi; k++) {
+            aux[k] = a[k];
         }
 
-        int i = lo;
-        int j = mid + 1;
+        int i = lo, j = mid + 1;
 
         for (int k = lo; k <= hi; k++) {
-            if (i > mid) aux[k] = a[j++]; // If ith array is exhausted (past mid point)
-            else if (j > hi) aux[k] = a[i++];  // If jth array is exhausted (past last point)
-            else if (a[i] > a[j]) aux[k] = a[j++]; // Set aux[k] to the smaller element
-            else aux[k] = a[j++]; // If they're equal, set aux[k] to value from left sub arr
+            if (i > mid) a[k] = aux[j++]; // If ith array is exhausted (past mid point)
+            else if (j > hi) a[k] = aux[i++];  // If jth array is exhausted (past last point)
+            else if (a[i] > a[j]) a[k] = aux[j++]; // Set aux[k] to the smaller element
+            else a[k] = aux[i++];
         }
 
-        return aux;
+    }
 
+
+    static void mergeSort(int[] arr, int[] aux, int lo, int hi) {
+        if (hi <= lo) return;
+        int mid = lo + (hi - lo) / 2;
+        mergeSort(arr, aux, lo, mid);  // Sort left half
+        mergeSort(arr, aux, mid + 1, hi); // Sort right half
+        merge(arr, aux, lo, mid, hi); // Merge both halves into new arr
+    }
+
+    static void mergeSort(int[] arr) {
+        int[] aux = new int[arr.length];
+        mergeSort(arr, aux, 0, arr.length - 1);
+    }
+
+    // Partition is O(N) Runtime
+    static int partition(int[] arr, int left_pointer, int right_pointer) {
+        int pivot = right_pointer; // Starting right pointer will be our pivot index
+        int i = left_pointer; // Start at the left most index
+        int j = right_pointer - 1;  // Start at the right most index excluding the pivot
+
+        while (true) {
+            while (arr[i] < arr[pivot]) {
+                if (i == right_pointer) {
+                    break;
+                }
+                i++;
+            }
+
+            while (arr[j] > arr[pivot]) {
+                if (j == left_pointer) {
+                    break;
+                }
+                j--;
+            }
+
+            // If the pointers have crossed, break out, otherwise swap the values
+            if (i >= j) {
+                break;
+            }
+
+            // Swap values and increase left pointer
+            int tmp = arr[j];
+            arr[j] = arr[i];
+            arr[i] = tmp;
+            i++;
+
+        }
+
+        // Swap the left pointer with the pivot
+        int tmp = arr[i];
+        arr[i] = arr[pivot];
+        arr[pivot] = tmp;
+
+        // Return index of pivot;
+        return i;
+
+    }
+
+    // 1. Shuffle Array (Didn't implement shuffling here)
+    // 2. Partition Array (Get pivot)
+    // 3. Recursively sort each sub array (Arrays to left and right of pivot);
+    //      - Base case: when our subarray has 0 or 1 elements, we do nothing.
+    // Time Complexity: O(N log N)
+    static void quickSort(int[] arr, int left_pointer, int right_pointer) {
+        if (right_pointer - left_pointer <= 0) {
+            return;
+        }
+
+        int pivot = partition(arr, left_pointer, right_pointer);
+        quickSort(arr, left_pointer, pivot - 1);
+        quickSort(arr, pivot + 1, right_pointer);
+    }
+
+    static void quickSort(int[] arr) {
+        quickSort(arr, 0, arr.length - 1);
     }
 
     public static void main(String[] args) {
@@ -127,9 +197,19 @@ public class Sorting {
         shellSort(arr3);
         System.out.println(Arrays.toString(arr3));
 
-        int[] arr4 = { 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5 };
-        // Merge two sorted arrays
-        System.out.println(Arrays.toString(merge(arr4)));
+        //int[] arr4 = { 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5 };
+
+        int[] arr5 = { 4, 1, 8, 1, 2, 3, 10, 6, 5 };
+        mergeSort(arr5);
+        System.out.println(Arrays.toString(arr5));
+
+        int[] pArr = { 0, 5, 2, 1, 6, 3 };
+        quickSort(pArr);
+        System.out.println(Arrays.toString(pArr));
+
+        int[] x = { 5, 4, 2, 1, 5, 10, 0, 4, 5, 2, 3, 1, 10, 100, 2, 45 };
+        quickSort(x);
+        System.out.println(Arrays.toString(x));
 
     }
 }
