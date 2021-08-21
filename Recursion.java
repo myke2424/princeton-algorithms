@@ -158,7 +158,21 @@ public class Recursion {
 
     // return true if first str is subsequence of second string
     public static boolean isSubsequence(String s1, String s2) {
-        return true;
+        return isSubsequence(s1, s2, s1.length() - 1, s2.length() - 1);
+    }
+
+    private static boolean isSubsequence(String s1, String s2, int m, int n) {
+        if (m == 0) return true;
+
+        if (n == 0) return false;
+
+        // Check if last two chars are equal, if they are, move the pointer one char to the left for both strings
+        if (s1.charAt(m) == s2.charAt(n)) {
+            return isSubsequence(s1, s2, m - 1, n - 1);
+        }
+
+        // If last chars are not matching, only move the pointer for the bigger string (s2)
+        return isSubsequence(s1, s2, m, n - 1);
     }
 
 
@@ -201,5 +215,8 @@ public class Recursion {
         System.out.println(isPalindrome("mike"));
         System.out.println(isPalindrome("mom"));
         System.out.println(isPalindrome("a"));
+
+        System.out.println(isSubsequence("hac", "cathartic"));
+        System.out.println(isSubsequence("kzy", "mikey"));
     }
 }
