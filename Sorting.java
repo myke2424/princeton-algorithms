@@ -211,5 +211,9 @@ public class Sorting {
         quickSort(x);
         System.out.println(Arrays.toString(x));
 
+        String[] sa = { "Hey", "mike", "Sup", "bro", "EZ" };
+        Arrays.sort(sa, String.CASE_INSENSITIVE_ORDER);
+        System.out.println(Arrays.toString(sa));
+
     }
 }

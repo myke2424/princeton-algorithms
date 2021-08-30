@@ -175,6 +175,41 @@ public class Recursion {
         return isSubsequence(s1, s2, m, n - 1);
     }
 
+    public static int countSubstring(String mainStr, String subStr) {
+        int N = subStr.length();
+
+        System.out.println(mainStr);
+
+        if (mainStr.length() < N) return 0;
+
+        if (mainStr.substring(0, N).equals(subStr)) {
+            return 1 + countSubstring(mainStr.substring(N), subStr);
+        }
+
+        return countSubstring(mainStr.substring(1), subStr);
+
+    }
+
+    public static int countSubstringIterative(String mainStr, String subStr) {
+        int N = subStr.length();
+        int counter = 0;
+
+        for (int i = 0; i < mainStr.length(); i++) {
+            if (i + N > mainStr.length()) break;
+
+            if (mainStr.substring(i, i + N).equals(subStr)) counter++;
+        }
+
+        return counter;
+    }
+
+    public static int runningSum(int N) {
+        if (N <= 0) return 0;
+        return N + runningSum(N - 1);
+    }
+
+
+
 
     public static void main(String[] args) {
         System.out.println(factorial(5));
@@ -218,5 +253,17 @@ public class Recursion {
 
         System.out.println(isSubsequence("hac", "cathartic"));
         System.out.println(isSubsequence("kzy", "mikey"));
+
+        String mStr = "yomikeheymikesupmikemydawgmike";
+
+        String subStr = "mike";
+
+        System.out.println(countSubstring(mStr, subStr));
+        System.out.println(countSubstringIterative(mStr, subStr));
+
+        System.out.println(runningSum(10));
+
+
+
     }
 }
