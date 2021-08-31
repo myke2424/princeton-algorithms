@@ -6,6 +6,7 @@
 
 import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Queue;
 
 // Use the adjacency list to represent the graph
 // Where each index will be a Bag Data structure that will
@@ -92,6 +93,34 @@ public class Graph {
     }
 }
 
+// BFS - Put unvisited vertices on a queue
+class BreadthFirstSearch {
+    private boolean[] marked;
+    private int[] edgeTo;
+
+    // Put s onto a FIFO queue, mark s as visited.
+    // Repeat until the queue is empty:
+    // - remove the least recently added vertex v
+    // - add each of v's unvisited adjacent neighbours to the queue and mark them as visited
+    private void bfs(Graph G, int s) {
+        Queue<Integer> queue = new Queue<>();
+        queue.enqueue(s);
+        marked[s] = true;
+
+        while (!queue.isEmpty()) {
+            int v = queue.dequeue();
+            for (int adjacent : G.adj(v)) {
+                if (!marked[adjacent]) {
+                    queue.enqueue(adjacent);
+                    marked[adjacent] = true;
+                    edgeTo[adjacent] = v;
+                }
+            }
+        }
+    }
+}
+
+// DFS - Put unvisited vertices on a stack (implicitly using the call-stack via recursion)
 class DepthFirstSearch {
     private boolean[] marked; // Marked vertexes we've already visited
 
