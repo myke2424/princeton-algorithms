@@ -158,3 +158,44 @@ class DepthFirstSearch {
         return path;
     }
 }
+
+class ConnectedComponents {
+    boolean marked[];
+    private int[] id; // record the ID of the cc to check if vertices have a path
+    private int count; // number of components
+
+    public ConnectedComponents(Graph G) {
+        marked = new boolean[G.V()]; // bool array number of vertices
+        id = new int[G.V()];
+
+        // Run DFS from one vertex in each component
+        for (int v = 0; v < G.V(); v++) {
+            if (!marked[v]) {
+                dfs(G, v);
+                count++;
+            }
+        }
+    }
+
+    // Number of components
+    public int count() {
+        return count;
+    }
+
+    // ID of component containing V
+    public int id (int v) {
+        return id[v];
+    }
+
+    // All vertices discovered in the same DFS call share the same ID.
+    private void dfs(Graph G, int v) {
+        marked[v] = true;
+        id[v] = count;
+        for (int w : G.adj(v)) {
+            if (!marked[w]) {
+                dfs(G, w);
+            }
+
+        }
+    }
+}
