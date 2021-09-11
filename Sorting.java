@@ -181,39 +181,6 @@ public class Sorting {
     }
 
     public static void main(String[] args) {
-        int[] arr = { 8, 3, 2, 5, 1, 10, };
-
-        selectionSort(arr);
-        System.out.println(Arrays.toString(arr));
-
-        int[] arr2 = { 8, 3, 2, 5, 1, 10, };
-
-        insertionSort(arr2);
-        System.out.println(Arrays.toString(arr2));
-
-
-        int[] arr3 = { 8, 3, 2, 5, 1, 10, 17, 22, 4, 9, 50, 44 };
-
-        shellSort(arr3);
-        System.out.println(Arrays.toString(arr3));
-
-        //int[] arr4 = { 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5 };
-
-        int[] arr5 = { 4, 1, 8, 1, 2, 3, 10, 6, 5 };
-        mergeSort(arr5);
-        System.out.println(Arrays.toString(arr5));
-
-        int[] pArr = { 0, 5, 2, 1, 6, 3 };
-        quickSort(pArr);
-        System.out.println(Arrays.toString(pArr));
-
-        int[] x = { 5, 4, 2, 1, 5, 10, 0, 4, 5, 2, 3, 1, 10, 100, 2, 45 };
-        quickSort(x);
-        System.out.println(Arrays.toString(x));
-
-        String[] sa = { "Hey", "mike", "Sup", "bro", "EZ" };
-        Arrays.sort(sa, String.CASE_INSENSITIVE_ORDER);
-        System.out.println(Arrays.toString(sa));
 
     }
 }

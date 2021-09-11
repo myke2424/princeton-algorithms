@@ -212,58 +212,6 @@ public class Recursion {
 
 
     public static void main(String[] args) {
-        System.out.println(factorial(5));
-
-        int[] a = { 10, 20, 30, 40 };
-
-        String name = "mike";
-
-        int[] arr = { 10, 5, 5, 10, 20, 50 };
-        System.out.println(sumArr(arr));
-
-        hanoi(5, "Pole 1", "Pole 2", "Pole 3");
-
-        ArrayList<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.add(4);
-
-        list = reverselist(list);
-        System.out.println(Arrays.toString(list.toArray()));
-
-        // res = 11
-        String[] s = new String[] { "hey", "mike", "test" };
-        System.out.println(totalChars(s));
-
-        List<Integer> nums = new ArrayList<>();
-        nums.add(1);
-        nums.add(2);
-        nums.add(3);
-
-
-        nums = evenNums(nums);
-
-        System.out.println(uniquePaths(8, 14));
-        System.out.println(sumOfDigits(5));
-
-        System.out.println(isPalindrome("mike"));
-        System.out.println(isPalindrome("mom"));
-        System.out.println(isPalindrome("a"));
-
-        System.out.println(isSubsequence("hac", "cathartic"));
-        System.out.println(isSubsequence("kzy", "mikey"));
-
-        String mStr = "yomikeheymikesupmikemydawgmike";
-
-        String subStr = "mike";
-
-        System.out.println(countSubstring(mStr, subStr));
-        System.out.println(countSubstringIterative(mStr, subStr));
-
-        System.out.println(runningSum(10));
-
-
 
     }
 }
