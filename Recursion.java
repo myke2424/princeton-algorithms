@@ -1,8 +1,3 @@
-// Three LAWS of Recursion:
-// 1. A recursive algorithm must have a base case
-// 2. A recursive algorithm must move towards the base case
-// 3. A recursive algorithm must call itself (RECURSE!)
-
 import edu.princeton.cs.algs4.In;
 
 import java.util.ArrayList;

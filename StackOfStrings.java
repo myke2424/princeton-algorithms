@@ -1,4 +1,3 @@
-
 // First implementation of a stack will use a LinkedList
 
 import edu.princeton.cs.algs4.StdIn;

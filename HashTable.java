@@ -1,9 +1,3 @@
-/* *****************************************************************************
- *  Name:              Alan Turing
- *  Coursera User ID:  123456
- *  Last modified:     1/1/2019
- **************************************************************************** */
-
 // Hash Table SC = 'Separate Chaining'
 // Separate chaining uses linked list at each ith index to store values we identical hashes
 class HashTableSC<Key, Value> {

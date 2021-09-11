@@ -1,9 +1,3 @@
-/* *****************************************************************************
- *  Name:              Alan Turing
- *  Coursera User ID:  123456
- *  Last modified:     1/1/2019
- **************************************************************************** */
-
 import java.util.Iterator;
 
 public class StackGenericArray<Item> implements Iterable<Item> {
